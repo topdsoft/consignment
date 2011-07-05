@@ -1,6 +1,7 @@
 <?php
 class Category extends AppModel {
 	var $name = 'Category';
+	var $actsAs = array('Tree');
 	var $displayField = 'name';
 	var $validate = array(
 		'name' => array(

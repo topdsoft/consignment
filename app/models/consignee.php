@@ -1,6 +1,13 @@
 <?php
 class Consignee extends AppModel {
 	var $name = 'Consignee';
+	var $virtualFields = array (
+		'fullname' => 'CONCAT (fName, " ", lName)',
+		'items' => '(select count(*) from items where items.consignee_id=Consignee.id)',
+		'qty' => '(select sum(qty) from items where items.consignee_id=Consignee.id)',
+		'total' => '(select sum(qty*price) from items where items.consignee_id=Consignee.id)'
+	);
+	var $displayField = 'fullname';
 	var $validate = array(
 		'fName' => array(
 			'notempty' => array(

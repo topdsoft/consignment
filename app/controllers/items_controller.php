@@ -3,9 +3,23 @@ class ItemsController extends AppController {
 
 	var $name = 'Items';
 
-	function index() {
+	function index($cat_id = null) {
 		$this->Item->recursive = 0;
-		$this->set('items', $this->paginate());
+		if ($cat_id) {
+			//filter only items from this category or children of it
+			$allChildren=$this->Item->Category->children($cat_id);
+			$lst=array();
+			//add parent category
+			$lst[]=$cat_id;
+			//add all children
+			foreach ($allChildren as $child) $lst[]=$child['Category']['id'];
+			$this->set('items', $this->paginate('Item', array('Item.qty>0 and Item.category_id' => $lst) ));
+			$this->set('cat',$this->Item->Category->find('first',array('conditions'=>'Category.id='.$cat_id)));
+		} else {
+			//no category filter set
+			$this->set('items', $this->paginate('Item', array('Item.qty>0')));
+			$this->set('children',$this->Item->Category->find('all',array('conditions'=>'Category.parent_id=0')));
+		}//endif
 	}
 
 	function view($id = null) {
@@ -16,7 +30,7 @@ class ItemsController extends AppController {
 		$this->set('item', $this->Item->read(null, $id));
 	}
 
-	function add() {
+	function add($cons_id = null) {
 		if (!empty($this->data)) {
 			$this->Item->create();
 			if ($this->Item->save($this->data)) {
@@ -26,9 +40,11 @@ class ItemsController extends AppController {
 				$this->Session->setFlash(__('The item could not be saved. Please, try again.', true));
 			}
 		}
-		$categories = $this->Item->Category->find('list');
+		$categories = $this->Item->Category->generatetreelist(null,null,null," - ");
+//		$categories = $this->Item->Category->find('list');
 		$consignees = $this->Item->Consignee->find('list');
 		$this->set(compact('categories', 'consignees'));
+		if ($cons_id) $this->set('cons_id',$cons_id);
 	}
 
 	function edit($id = null) {

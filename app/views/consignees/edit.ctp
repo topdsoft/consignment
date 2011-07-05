@@ -8,7 +8,7 @@
 		echo $this->Form->input('lName');
 		echo $this->Form->input('address');
 		echo $this->Form->input('email');
-		echo $this->Form->input('default');
+		echo $this->Form->input('default',array('label'=>'Consignment Percent'));
 		echo $this->Form->input('phone');
 	?>
 	</fieldset>

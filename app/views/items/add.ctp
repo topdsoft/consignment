@@ -8,7 +8,8 @@
 		echo $this->Form->input('price');
 		echo $this->Form->input('desc');
 		echo $this->Form->input('qty');
-		echo $this->Form->input('consignee_id');
+		if (isset($cons_id)) echo $this->Form->input('consignee_id',array('type'=>'hidden','value'=>$cons_id));
+		else echo $this->Form->input('consignee_id');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

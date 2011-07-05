@@ -7,7 +7,7 @@
 		echo $this->Form->input('lName');
 		echo $this->Form->input('address');
 		echo $this->Form->input('email');
-		echo $this->Form->input('default');
+		echo $this->Form->input('default',array('label'=>'Consignment Percent'));
 		echo $this->Form->input('phone');
 	?>
 	</fieldset>
@@ -19,6 +19,5 @@
 
 		<li><?php echo $this->Html->link(__('List Consignees', true), array('action' => 'index'));?></li>
 		<li><?php echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

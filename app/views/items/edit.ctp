@@ -9,7 +9,7 @@
 		echo $this->Form->input('price');
 		echo $this->Form->input('desc');
 		echo $this->Form->input('qty');
-		echo $this->Form->input('consignee_id');
+//		echo $this->Form->input('consignee_id');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

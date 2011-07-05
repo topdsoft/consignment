@@ -3,8 +3,16 @@ class ConsigneesController extends AppController {
 
 	var $name = 'Consignees';
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		if ($this->Auth->user('role')==1) $this->redirect(array('controller' => 'items','action' => 'index'));
+	} 
+
 	function index() {
 		$this->Consignee->recursive = 0;
+//		$this->paginate= array('fields' => array('Consignee.id','created','lName','fName','CONCAT(fName," ",lName) as Consignee__fullname',
+//			'(select count(*) from items where items.consignee_id=Consignee.id) as Consignee__items'));
+		$this->Consignee->order='lName,fName';
 		$this->set('consignees', $this->paginate());
 	}
 
@@ -13,6 +21,7 @@ class ConsigneesController extends AppController {
 			$this->Session->setFlash(__('Invalid consignee', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->Consignee->recursive = 2;
 		$this->set('consignee', $this->Consignee->read(null, $id));
 	}
 

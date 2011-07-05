@@ -3,9 +3,15 @@ class CategoriesController extends AppController {
 
 	var $name = 'Categories';
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		if ($this->Auth->user('role')==1) $this->redirect(array('controller' => 'items','action' => 'index'));
+	} 
+
 	function index() {
 		$this->Category->recursive = 0;
-		$this->set('categories', $this->paginate());
+		$this->set('categories',$this->Category->generatetreelist(null,null,null," - "));
+//		$this->set('categories', $this->paginate());
 	}
 
 	function view($id = null) {
@@ -26,8 +32,13 @@ class CategoriesController extends AppController {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}
 		}
-		$parentCategories = $this->Category->ParentCategory->find('list');
-		$this->set(compact('parentCategories'));
+//			$nodelist = $this->Category->generatetreelist(null,null,null," - ");
+//			$nodelist[0]='[No Parent]';
+//			$this->set('parents',$this->Category->generatetreelist());
+//			$this->set('parents',($nodelist));
+		$parents = $this->Category->generatetreelist(null,null,null," - ");
+		$parents[0]='(No Parent)';
+		$this->set(compact('parents'));
 	}
 
 	function edit($id = null) {
@@ -46,8 +57,9 @@ class CategoriesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Category->read(null, $id);
 		}
-		$parentCategories = $this->Category->ParentCategory->find('list');
-		$this->set(compact('parentCategories'));
+		$parents = $this->Category->generatetreelist(null,null,null," - ");
+		$parents[0]='(No Parent)';
+		$this->set(compact('parents'));
 	}
 
 	function delete($id = null) {

@@ -23,7 +23,7 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Address'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $consignee['Consignee']['address']; ?>
+			<?php echo nl2br($consignee['Consignee']['address']); ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Email'); ?></dt>
@@ -31,7 +31,7 @@
 			<?php echo $consignee['Consignee']['email']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Default'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Consignment'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $consignee['Consignee']['default']; ?>
 			&nbsp;
@@ -61,12 +61,11 @@
 	<tr>
 		<th><?php __('Id'); ?></th>
 		<th><?php __('Name'); ?></th>
-		<th><?php __('Category Id'); ?></th>
+		<th><?php __('Category'); ?></th>
 		<th><?php __('Price'); ?></th>
 		<th><?php __('Desc'); ?></th>
 		<th><?php __('Qty'); ?></th>
 		<th><?php __('Created'); ?></th>
-		<th><?php __('Consignee Id'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -80,12 +79,11 @@
 		<tr<?php echo $class;?>>
 			<td><?php echo $item['id'];?></td>
 			<td><?php echo $item['name'];?></td>
-			<td><?php echo $item['category_id'];?></td>
+			<td><?php echo $item['Category']['name'];?></td>
 			<td><?php echo $item['price'];?></td>
 			<td><?php echo $item['desc'];?></td>
 			<td><?php echo $item['qty'];?></td>
 			<td><?php echo $item['created'];?></td>
-			<td><?php echo $item['consignee_id'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'items', 'action' => 'view', $item['id'])); ?>
 				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'items', 'action' => 'edit', $item['id'])); ?>

@@ -3,7 +3,11 @@
 	<fieldset>
 		<legend><?php __('Add User'); ?></legend>
 	<?php
-		echo $this->Form->input('role');
+		if ($firstUser) {
+			echo 'This is the first user added to the system.  They will have <strong>Manager</strong> permissions.';
+			echo $this->Form->input('role',array('type'=>'hidden','value'=>3));
+		}//endif
+		else echo $this->Form->input('role',array('type'=>'select','options'=>$roles));
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
 	?>
@@ -15,7 +19,7 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Users', true), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List Sales', true), array('controller' => 'sales', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Sale', true), array('controller' => 'sales', 'action' => 'add')); ?> </li>
+		<li><?php //echo $this->Html->link(__('List Sales', true), array('controller' => 'sales', 'action' => 'index')); ?> </li>
+		<li><?php //echo $this->Html->link(__('New Sale', true), array('controller' => 'sales', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
