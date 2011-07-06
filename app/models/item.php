@@ -68,6 +68,11 @@ class Item extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	function adjustQty($id = null, $qty = null) {
+		if (!$id || !$qty) return false;
+		return true;
+	}
 
 }
 ?>

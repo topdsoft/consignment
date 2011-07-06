@@ -5,7 +5,7 @@ class CategoriesController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		if ($this->Auth->user('role')==1) $this->redirect(array('controller' => 'items','action' => 'index'));
+		if ($this->Auth->user('role')!=3) $this->redirect(array('controller' => 'items','action' => 'index'));
 	} 
 
 	function index() {

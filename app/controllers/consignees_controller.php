@@ -14,6 +14,7 @@ class ConsigneesController extends AppController {
 //			'(select count(*) from items where items.consignee_id=Consignee.id) as Consignee__items'));
 		$this->Consignee->order='lName,fName';
 		$this->set('consignees', $this->paginate());
+		$this->set('role',$this->Auth->user('role'));
 	}
 
 	function view($id = null) {
@@ -23,6 +24,7 @@ class ConsigneesController extends AppController {
 		}
 		$this->Consignee->recursive = 2;
 		$this->set('consignee', $this->Consignee->read(null, $id));
+		$this->set('role',$this->Auth->user('role'));
 	}
 
 	function add() {
@@ -35,6 +37,7 @@ class ConsigneesController extends AppController {
 				$this->Session->setFlash(__('The consignee could not be saved. Please, try again.', true));
 			}
 		}
+		$this->set('role',$this->Auth->user('role'));
 	}
 
 	function edit($id = null) {
@@ -53,9 +56,11 @@ class ConsigneesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Consignee->read(null, $id);
 		}
+		$this->set('role',$this->Auth->user('role'));
 	}
 
 	function delete($id = null) {
+		if ($this->Auth->user('role')!=3) $this->redirect(array('action' => 'index'));
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for consignee', true));
 			$this->redirect(array('action'=>'index'));

@@ -18,7 +18,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Consignee.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Consignee.id'))); ?></li>
+		<li><?php if($role>2)echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Consignee.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Consignee.id'))); ?></li>
 		<li><?php echo $this->Html->link(__('List Consignees', true), array('action' => 'index'));?></li>
 		<li><?php echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>

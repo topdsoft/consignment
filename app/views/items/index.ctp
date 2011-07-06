@@ -2,7 +2,7 @@
 	<h2><?php __('Browse Items');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th><?php //echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('category_id');?></th>
 			<th><?php echo $this->Paginator->sort('price');?></th>
@@ -21,10 +21,10 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $item['Item']['id']; ?>&nbsp;</td>
+		<td><?php //echo $item['Item']['id']; ?>&nbsp;</td>
 		<td><?php echo $item['Item']['name']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($item['Category']['name'], array('controller' => 'categories', 'action' => 'view', $item['Category']['id'])); ?>
+			<?php echo $this->Html->link($item['Category']['name'], array('controller' => 'items', 'action' => 'index', $item['Category']['id'])); ?>
 		</td>
 		<td><?php echo $item['Item']['price']; ?>&nbsp;</td>
 		<td><?php //echo $item['Item']['desc']; ?>&nbsp;</td>
@@ -35,8 +35,8 @@
 		</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $item['Item']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $item['Item']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $item['Item']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $item['Item']['id'])); ?>
+			<?php if ($role>1)echo $this->Html->link(__('Edit', true), array('action' => 'edit', $item['Item']['id'])); ?>
+			<?php if ($role==3)echo $this->Html->link(__('Delete', true), array('action' => 'delete', $item['Item']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $item['Item']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -78,12 +78,12 @@
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Item', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Categories', true), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Consignees', true), array('controller' => 'consignees', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Consignee', true), array('controller' => 'consignees', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Details', true), array('controller' => 'details', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Detail', true), array('controller' => 'details', 'action' => 'add')); ?> </li>
+		<li><?php if ($role>1)echo $this->Html->link(__('New Item', true), array('action' => 'add')); ?></li>
+		<li><?php if ($role>1)echo $this->Html->link(__('List Categories', true), array('controller' => 'categories', 'action' => 'index')); ?> </li>
+		<li><?php if ($role>2)echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
+		<li><?php if ($role>1)echo $this->Html->link(__('List Consignees', true), array('controller' => 'consignees', 'action' => 'index')); ?> </li>
+		<li><?php if ($role>1)echo $this->Html->link(__('New Consignee', true), array('controller' => 'consignees', 'action' => 'add')); ?> </li>
+		<li><?php //echo $this->Html->link(__('List Details', true), array('controller' => 'details', 'action' => 'index')); ?> </li>
+		<li><?php //echo $this->Html->link(__('New Detail', true), array('controller' => 'details', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

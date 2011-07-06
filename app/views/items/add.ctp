@@ -6,6 +6,7 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('category_id');
 		echo $this->Form->input('price');
+		echo $this->Form->input('taxable');
 		echo $this->Form->input('desc');
 		echo $this->Form->input('qty');
 		if (isset($cons_id)) echo $this->Form->input('consignee_id',array('type'=>'hidden','value'=>$cons_id));
@@ -23,7 +24,7 @@
 		<li><?php echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Consignees', true), array('controller' => 'consignees', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Consignee', true), array('controller' => 'consignees', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Details', true), array('controller' => 'details', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Detail', true), array('controller' => 'details', 'action' => 'add')); ?> </li>
+		<li><?php //echo $this->Html->link(__('List Details', true), array('controller' => 'details', 'action' => 'index')); ?> </li>
+		<li><?php //echo $this->Html->link(__('New Detail', true), array('controller' => 'details', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

@@ -17,17 +17,21 @@ class SalesController extends AppController {
 	}
 
 	function add() {
-		if (!empty($this->data)) {
-			$this->Sale->create();
-			if ($this->Sale->save($this->data)) {
-				$this->Session->setFlash(__('The sale has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The sale could not be saved. Please, try again.', true));
-			}
+//		if (!empty($this->data)) {
+		$this->Sale->create();
+		$this->data['Sale']['user_id']=$this->Auth->user('id');
+		$this->data['Sale']['status']='O';
+		if ($this->Sale->save($this->data)) {
+			//get sale id
+			$so_id=$this->Sale->getInsertId();
+			$this->Session->setFlash(__('Sale '.$so_id.' has been started', true));
+			$this->redirect(array('controller'=>'details','action' => 'add',$so_id));
+		} else {
+			$this->Session->setFlash(__('The sale could not be saved. Please, try again.', true));
 		}
+/*		}
 		$users = $this->Sale->User->find('list');
-		$this->set(compact('users'));
+		$this->set(compact('users'));//*/
 	}
 
 	function edit($id = null) {
@@ -62,5 +66,23 @@ class SalesController extends AppController {
 		$this->Session->setFlash(__('Sale was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	function void($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for sale', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->Sale->field('status','id='.$id.' and status="O"')) {
+			//should be ok to void
+			$this->data['Sale']['status']='V';
+			if ($this->Sale->save($this->data)) {
+				$this->Session->setFlash(__('The sale has been voided', true));
+				$this->redirect(array('action' => 'index'));
+			}
+		}
+		$this->Session->setFlash(__('The sale could not be voided.', true));
+		$this->redirect(array('action' => 'index'));
+	}
+
 }
 ?>

@@ -31,7 +31,7 @@
 			<?php echo $consignee['Consignee']['email']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Consignment'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Consignment<br>Fee'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $consignee['Consignee']['default']; ?>
 			&nbsp;
@@ -47,11 +47,11 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Consignee', true), array('action' => 'edit', $consignee['Consignee']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Consignee', true), array('action' => 'delete', $consignee['Consignee']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $consignee['Consignee']['id'])); ?> </li>
+		<li><?php if($role>2)echo $this->Html->link(__('Delete Consignee', true), array('action' => 'delete', $consignee['Consignee']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $consignee['Consignee']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Consignees', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Consignee', true), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add',$consignee['Consignee']['id'])); ?> </li>
 	</ul>
 </div>
 <div class="related">
@@ -87,16 +87,11 @@
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'items', 'action' => 'view', $item['id'])); ?>
 				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'items', 'action' => 'edit', $item['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'items', 'action' => 'delete', $item['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $item['id'])); ?>
+				<?php if($role>2)echo $this->Html->link(__('Delete', true), array('controller' => 'items', 'action' => 'delete', $item['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $item['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>
 <?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add'));?> </li>
-		</ul>
-	</div>
 </div>

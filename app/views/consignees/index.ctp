@@ -31,7 +31,7 @@
 			<?php echo $this->Html->link(__('Add Item', true), array('controller' => 'items', 'action' => 'add', $consignee['Consignee']['id'])); ?>
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $consignee['Consignee']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $consignee['Consignee']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $consignee['Consignee']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $consignee['Consignee']['id'])); ?>
+			<?php if($role>2)echo $this->Html->link(__('Delete', true), array('action' => 'delete', $consignee['Consignee']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $consignee['Consignee']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
