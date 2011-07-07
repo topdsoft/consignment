@@ -60,7 +60,8 @@ class ItemsController extends AppController {
 			$this->Item->create();
 			if ($this->Item->save($this->data)) {
 				$this->Session->setFlash(__('The item has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				if ($this->data['Item']['addmore']) $this->redirect(array('action' => 'add', $this->data['Item']['consignee_id']));
+				else $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The item could not be saved. Please, try again.', true));
 			}

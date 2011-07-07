@@ -16,11 +16,6 @@
 			<?php echo $user['User']['username']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Password'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['password']; ?>
-			&nbsp;
-		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -35,17 +30,19 @@
 	</ul>
 </div>
 <div class="related">
-	<h3><?php __('Related Sales');?></h3>
+	<h3><?php __('User\'s Sales');?></h3>
 	<?php if (!empty($user['Sale'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
+		<th><?php __('Sale Id'); ?></th>
+		<th><?php __('Status'); ?></th>
+		<th><?php __('Qty Sold'); ?></th>
+		<th><?php __('Total'); ?></th>
 		<th><?php __('Created'); ?></th>
-		<th><?php __('User Id'); ?></th>
-		<th class="actions"><?php __('Actions');?></th>
+		<th><?php __('Closed'); ?></th>
 	</tr>
 	<?php
-		$i = 0;
+		$i = 0;$total=0;$tqty=0;//debug($user['Sale']);
 		foreach ($user['Sale'] as $sale):
 			$class = null;
 			if ($i++ % 2 == 0) {
@@ -53,22 +50,17 @@
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $sale['id'];?></td>
+			<td><?php echo $this->Html->link(__($sale['id'], true), array('controller' => 'sales', 'action' => 'view', $sale['id']));;?></td>
+			<td><?php echo $sale['status'];?></td>
+			<td><?php if($sale['status']=='C') {echo $sale['qty'];$tqty+=$sale['qty'];}?></td>
+			<td><?php if($sale['status']=='C') {echo $sale['ext'];$total+=$sale['ext'];}?></td>
 			<td><?php echo $sale['created'];?></td>
-			<td><?php echo $sale['user_id'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'sales', 'action' => 'view', $sale['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'sales', 'action' => 'edit', $sale['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'sales', 'action' => 'delete', $sale['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $sale['id'])); ?>
-			</td>
+			<td><?php echo $sale['closed'];?></td>
 		</tr>
 	<?php endforeach; ?>
+	<tr><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+	<tr><th>Total</th><th></th><th><?php echo $tqty;?></th><th><?php echo number_format($total,2);?></th><th></th><th></th></tr>
 	</table>
 <?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Sale', true), array('controller' => 'sales', 'action' => 'add'));?> </li>
-		</ul>
-	</div>
 </div>

@@ -41,6 +41,16 @@
 			<?php echo $consignee['Consignee']['phone']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Qty in Store'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $consignee['Consignee']['qty']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Owed Blance'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $consignee['Consignee']['balance']; ?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -91,6 +101,34 @@
 			</td>
 		</tr>
 	<?php endforeach; ?>
+	</table>
+<?php endif; ?>
+	<h3><?php __('Related Transactions');?></h3>
+	<?php if (!empty($consignee['Transaction'])):?>
+	<table cellpadding = "0" cellspacing = "0">
+	<tr>
+		<th><?php __('Date'); ?></th>
+		<th><?php __('Sale ID'); ?></th>
+		<th><?php __('Item'); ?></th>
+		<th><?php __('Amount'); ?></th>
+	</tr>
+	<?php
+		$i = 0;$total=0;//debug($consignee);
+		foreach ($consignee['Transaction'] as $transaction):
+			$class = null;
+			if ($i++ % 2 == 0) {
+				$class = ' class="altrow"';
+			}
+		?>
+		<tr<?php echo $class;?>>
+			<td><?php echo $transaction['created'];?></td>
+			<td><?php echo $this->Html->link($transaction['sale_id'], array('controller'=>'sales','action'=>'view',$transaction['sale_id']));?></td>
+			<td><?php if($transaction['Item'])echo $transaction['Item']['name']; else echo '(Payment)'?></td>
+			<td><?php echo $transaction['amount'];$total+=$transaction['amount']?></td>
+		</tr>
+	<?php endforeach; ?>
+	<tr><th></th><th></th><th></th><th></th></tr>
+	<tr><th>Total</th><th></th><th></th><th><?php echo number_format($total,2); ?></th></tr>
 	</table>
 <?php endif; ?>
 

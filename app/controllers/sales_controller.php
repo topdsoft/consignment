@@ -5,7 +5,12 @@ class SalesController extends AppController {
 
 	function index() {
 		$this->Sale->recursive = 0;
-		$this->set('sales', $this->paginate());
+		if($this->Auth->user('role')==1) {
+			//only show current user's sales to salesperson (manager and supervisor see all sales)
+//			$this->Sale->conditions=;
+			$this->set('sales', $this->paginate(null,array('Sale.user_id='.$this->Auth->user('id'))));
+		} else $this->set('sales', $this->paginate());
+		$this->set('role',$this->Auth->user('role'));
 	}
 
 	function view($id = null) {
@@ -13,10 +18,12 @@ class SalesController extends AppController {
 			$this->Session->setFlash(__('Invalid sale', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->Sale->recursive = 2;
 		$this->set('sale', $this->Sale->read(null, $id));
+		$this->set('role',$this->Auth->user('role'));
 	}
 
-	function add() {
+	function add($item_id = null) {
 //		if (!empty($this->data)) {
 		$this->Sale->create();
 		$this->data['Sale']['user_id']=$this->Auth->user('id');
@@ -25,46 +32,13 @@ class SalesController extends AppController {
 			//get sale id
 			$so_id=$this->Sale->getInsertId();
 			$this->Session->setFlash(__('Sale '.$so_id.' has been started', true));
-			$this->redirect(array('controller'=>'details','action' => 'add',$so_id));
+			$this->redirect(array('controller'=>'details','action' => 'add',$so_id,$item_id));
 		} else {
 			$this->Session->setFlash(__('The sale could not be saved. Please, try again.', true));
 		}
 /*		}
 		$users = $this->Sale->User->find('list');
 		$this->set(compact('users'));//*/
-	}
-
-	function edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid sale', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		if (!empty($this->data)) {
-			if ($this->Sale->save($this->data)) {
-				$this->Session->setFlash(__('The sale has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The sale could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Sale->read(null, $id);
-		}
-		$users = $this->Sale->User->find('list');
-		$this->set(compact('users'));
-	}
-
-	function delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for sale', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		if ($this->Sale->delete($id)) {
-			$this->Session->setFlash(__('Sale deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Sale was not deleted', true));
-		$this->redirect(array('action' => 'index'));
 	}
 
 	function void($id = null) {
@@ -81,6 +55,36 @@ class SalesController extends AppController {
 			}
 		}
 		$this->Session->setFlash(__('The sale could not be voided.', true));
+		$this->redirect(array('action' => 'index'));
+	}
+
+	function finish($id = void) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for sale', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->Sale->field('status','id='.$id.' and status="O"')) {
+			//loop for each item in sale
+			$ok=true;
+			$details=$this->Sale->Detail->find('all',array('conditions'=>'sale_id='.$id));
+			foreach ($details as $detail) {
+				//process each item in sale-first reduce inventory
+				if($ok) $ok=ClassRegistry::init('Item')->adjustQty($detail['Detail']['item_id'],-$detail['Detail']['qty']);
+				//now give consignee credit for the sale
+				$amount=number_format($detail['Detail']['qty']*($detail['Item']['price']-($detail['Item']['price']*(ClassRegistry::init('Consignee')->field('default','id='.$detail['Item']['consignee_id'])/100))),2);
+//echo $amount;
+				if($ok) $ok=ClassRegistry::init('Transaction')->addSale($amount,$id,$detail['Item']['id'],$detail['Item']['consignee_id']);
+			}//end foreach
+//debug($details);exit;
+			//should be ok to close
+			$this->data['Sale']['status']='C';
+			$this->data['Sale']['closed']= date("Y-m-d H:i:s");
+			if ($ok && $this->Sale->save($this->data)) {
+				$this->Session->setFlash(__('The sale has been completed', true));
+				$this->redirect(array('action' => 'index'));
+			}
+		}
+		$this->Session->setFlash(__('The sale could not be completed.', true));
 		$this->redirect(array('action' => 'index'));
 	}
 

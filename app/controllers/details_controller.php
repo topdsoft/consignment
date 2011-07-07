@@ -17,6 +17,7 @@ class DetailsController extends AppController {
 	}
 
 	function add($so_id = null, $item_id = null) {
+$TAX=0.07;
 		if (!empty($this->data)) {
 			$this->Detail->create();
 			$so_id=$this->data['Detail']['sale_id'];
@@ -45,6 +46,10 @@ class DetailsController extends AppController {
 				}//endif
 			}//end if for scancode vs selection
 			if ($ok) {
+				//calc ext
+				$itmPrice=$this->Detail->Item->field('price','id='.$this->data['Detail']['item_id']);
+				$itmTaxable=$this->Detail->Item->field('taxable','id='.$this->data['Detail']['item_id']);
+				$this->data['Detail']['ext']=$itmPrice*(($TAX*$itmTaxable)+1)*$this->data['Detail']['qty'];
 				if ($this->Detail->save($this->data)) {
 //					$this->Session->setFlash(__('The detail has been saved', true));
 					$this->redirect(array('action' => 'add', $so_id));
@@ -81,9 +86,12 @@ class DetailsController extends AppController {
 			}//endif item ok
 		}//endif for item id set
 		$this->set('so_id',$so_id);
-		$this->set('tax',.07);
+		$this->set('tax',$TAX);
 		if (empty($this->data)) $this->data['Detail']['qty']=1;
 		$this->set('saledata',$this->Detail->find('all',array('conditions' => 'sale_id='.$so_id)));
+//$this->Detail->Transaction->addPayment(250.23,1);
+//ClassRegistry::init('Transaction')->addPayment(250.23,1);
+//$this->Detail->Item->adjustQty(3,5);
 	}
 
 	function edit($id = null) {

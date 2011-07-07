@@ -23,7 +23,7 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('Item Lookup', true), array('controller' => 'items', 'action' => 'lookup',$so_id));?></li>
-		<li><?php echo $this->Html->link(__('Finish Sale', true), array('controller' => 'sales', 'action' => 'finish',$so_id)); ?> </li>
+		<li><?php if ($saledata) echo $this->Html->link(__('Finish Sale', true), array('controller' => 'sales', 'action' => 'finish',$so_id)); ?> </li>
 		<li><?php echo $this->Html->link(__('Void Sale', true), array('controller' => 'sales', 'action' => 'void',$so_id)); ?> </li>
 		<li><?php //echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
 		<li><?php //echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>
@@ -48,10 +48,8 @@
 			echo "<td>{$detail['Detail']['qty']}</td>";
 			echo "<td>{$detail['Item']['price']}</td>";
 			echo "<td>".number_format($detail['Item']['price']*$tax*$detail['Item']['taxable'],2)."</td>";
-			$ext=($detail['Item']['price']*(($tax*$detail['Item']['taxable'])+1)*$detail['Detail']['qty']);
-			$total+=$ext;
-			$ext=number_format($ext,2);
-			echo "<td>$ext</td>";
+			$total+=$detail['Detail']['ext'];
+			echo "<td>{$detail['Detail']['ext']}</td>";
 			echo '<td class="actions">'.$this->Html->link('Delete',array('action'=>'delete',$detail['Detail']['id'],$so_id)).'</td>';
 			echo '</tr>';
 		}//end foreach

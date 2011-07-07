@@ -3,9 +3,10 @@ class Consignee extends AppModel {
 	var $name = 'Consignee';
 	var $virtualFields = array (
 		'fullname' => 'CONCAT (fName, " ", lName)',
-		'items' => '(select count(*) from items where items.consignee_id=Consignee.id)',
+		'items' => '(select count(*) from items where items.consignee_id=Consignee.id and items.qty>0)',
 		'qty' => '(select sum(qty) from items where items.consignee_id=Consignee.id)',
-		'total' => '(select sum(qty*price) from items where items.consignee_id=Consignee.id)'
+		'total' => '(select sum(qty*price) from items where items.consignee_id=Consignee.id)',
+		'balance' => '(select sum(amount) from transactions where transactions.consignee_id=Consignee.id)'
 	);
 	var $displayField = 'fullname';
 	var $validate = array(
@@ -45,6 +46,19 @@ class Consignee extends AppModel {
 	var $hasMany = array(
 		'Item' => array(
 			'className' => 'Item',
+			'foreignKey' => 'consignee_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Transaction' => array(
+			'className' => 'Transaction',
 			'foreignKey' => 'consignee_id',
 			'dependent' => true,
 			'conditions' => '',

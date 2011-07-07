@@ -11,7 +11,7 @@
 			<?php echo $this->Html->link($detail['Sale']['id'], array('controller' => 'sales', 'action' => 'view', $detail['Sale']['id'])); ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Started'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $detail['Detail']['created']; ?>
 			&nbsp;

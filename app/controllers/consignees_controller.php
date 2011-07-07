@@ -25,6 +25,7 @@ class ConsigneesController extends AppController {
 		$this->Consignee->recursive = 2;
 		$this->set('consignee', $this->Consignee->read(null, $id));
 		$this->set('role',$this->Auth->user('role'));
+//		$this->set('transactions',$this->Consignee->Transaction->find('all',array('conditions'=>'Consignee.id='.$id)));
 	}
 
 	function add() {

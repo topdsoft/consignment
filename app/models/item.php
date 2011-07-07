@@ -70,8 +70,15 @@ class Item extends AppModel {
 	);
 	
 	function adjustQty($id = null, $qty = null) {
+		//$id is the item_id and $qty is amount to adjust
 		if (!$id || !$qty) return false;
-		return true;
+		//get original qty
+		$before=$this->field('qty','id='.$id);
+		$this->data['qty']=$before+$qty;
+		$this->data['id']=$id;
+		return $this->save($this->data);
+//debug($this->data); exit;
+//		return true;
 	}
 
 }

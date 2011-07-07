@@ -13,6 +13,7 @@
 		else echo $this->Form->input('consignee_id');
 	?>
 	</fieldset>
+	<?php echo $this->Form->input('addmore',array('type'=>'checkbox','label'=>'Add Another Item For This Consignee'));?>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">

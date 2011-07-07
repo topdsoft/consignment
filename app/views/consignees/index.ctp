@@ -8,6 +8,7 @@
 			<th><?php echo $this->Paginator->sort('items');?></th>
 			<th><?php echo $this->Paginator->sort('qty');?></th>
 			<th><?php echo $this->Paginator->sort('total');?></th>
+			<th><?php echo $this->Paginator->sort('balance');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
@@ -26,12 +27,14 @@
 		<td><?php echo $consignee['Consignee']['items']; ?>&nbsp;</td>
 		<td><?php echo $consignee['Consignee']['qty']; ?>&nbsp;</td>
 		<td><?php echo $consignee['Consignee']['total']; ?>&nbsp;</td>
+		<td><?php echo $consignee['Consignee']['balance']; ?>&nbsp;</td>
 		<td><?php echo $consignee['Consignee']['created']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Add Item', true), array('controller' => 'items', 'action' => 'add', $consignee['Consignee']['id'])); ?>
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $consignee['Consignee']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $consignee['Consignee']['id'])); ?>
 			<?php if($role>2)echo $this->Html->link(__('Delete', true), array('action' => 'delete', $consignee['Consignee']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $consignee['Consignee']['id'])); ?>
+			<?php if($role>2 && $consignee['Consignee']['balance']>0)echo $this->Html->link(__('Payment', true), array('controller' => 'transactions', 'action' => 'payment', $consignee['Consignee']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -56,5 +59,6 @@
 		<li><?php echo $this->Html->link(__('New Consignee', true), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>
+		<li><?php if($role>2)echo $this->Html->link(__('List Transactions', true), array('controller' => 'transactions', 'action' => 'index')); ?> </li>
 	</ul>
 </div>
