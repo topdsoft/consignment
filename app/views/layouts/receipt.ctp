@@ -28,7 +28,7 @@
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('receipt');
 
 		echo $scripts_for_layout;
 	?>
@@ -40,31 +40,9 @@
 		</div>
 		<div id="content">
 
-			<div id="user_nav">
-				<?php
-				if ($this->Session->read('Auth.User.username')) {
-					//user is logged in
-					echo '<strong>Welcome '.$this->Session->read('Auth.User.username').'</strong> , ';
-					echo $html->link('Logout', array('controller'=>'users','action'=>'logout'));
-				}//endif
-				?>
-			</div>
-
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->Session->flash('Auth'); ?>
-
 			<?php echo $content_for_layout; ?>
 
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt'=> __('CakePHP: the rapid development php framework', true), 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

@@ -17,7 +17,7 @@ class DetailsController extends AppController {
 	}
 
 	function add($so_id = null, $item_id = null) {
-$TAX=0.07;
+		$TAX=ClassRegistry::init('Option')->field('tax');
 		if (!empty($this->data)) {
 			$this->Detail->create();
 			$so_id=$this->data['Detail']['sale_id'];

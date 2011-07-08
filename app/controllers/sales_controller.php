@@ -23,6 +23,17 @@ class SalesController extends AppController {
 		$this->set('role',$this->Auth->user('role'));
 	}
 
+	function receipt($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid sale', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->Sale->recursive = 2;
+		$this->set('sale', $this->Sale->read(null, $id));
+		$this->set('role',$this->Auth->user('role'));
+		$this->layout='receipt';
+	}
+
 	function add($item_id = null) {
 //		if (!empty($this->data)) {
 		$this->Sale->create();
@@ -81,7 +92,7 @@ class SalesController extends AppController {
 			$this->data['Sale']['closed']= date("Y-m-d H:i:s");
 			if ($ok && $this->Sale->save($this->data)) {
 				$this->Session->setFlash(__('The sale has been completed', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'receipt',$id));
 			}
 		}
 		$this->Session->setFlash(__('The sale could not be completed.', true));

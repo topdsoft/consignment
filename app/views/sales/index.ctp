@@ -31,6 +31,7 @@
 		</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $sale['Sale']['id'])); ?>
+			<?php if ($role>2 && $sale['Sale']['status']=='O')echo $this->Html->link(__('Void', true), array('action' => 'void', $sale['Sale']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -58,5 +59,6 @@
 		<li><?php if($role>1) echo $this->Html->link(__('List Consignees', true), array('controller' => 'consignees', 'action' => 'index')); ?> </li>
 		<li><?php if($role>1) echo $this->Html->link(__('New Consignee', true), array('controller' => 'consignees', 'action' => 'add')); ?> </li>
 		<li><?php if($role>1) echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
+		<li><?php if($role>2) echo $this->Html->link(__('Company Options', true), array('controller' => 'options', 'action' => 'edit',1)); ?> </li>
 	</ul>
 </div>
