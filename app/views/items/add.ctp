@@ -3,7 +3,7 @@
 	<fieldset>
 		<legend><?php __('Add Item'); ?></legend>
 	<?php
-		echo $this->Form->input('name');
+		echo $this->Form->input('name',array('id'=>'name'));
 		echo $this->Form->input('category_id');
 		echo $this->Form->input('price');
 		echo $this->Form->input('taxable');
@@ -11,6 +11,7 @@
 		echo $this->Form->input('qty');
 		if (isset($cons_id)) echo $this->Form->input('consignee_id',array('type'=>'hidden','value'=>$cons_id));
 		else echo $this->Form->input('consignee_id');
+		echo $this->Form->input('printBC',array('label' => 'Generate Barcode and Queue for Printing'));
 	?>
 	</fieldset>
 	<?php echo $this->Form->input('addmore',array('type'=>'checkbox','label'=>'Add Another Item For This Consignee'));?>
@@ -29,3 +30,4 @@
 		<li><?php //echo $this->Html->link(__('New Detail', true), array('controller' => 'details', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+<script type='text/javascript'>document.getElementById('name').focus();</script>

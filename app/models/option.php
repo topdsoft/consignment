@@ -32,6 +32,25 @@ class Option extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'default' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => 'Default rate must be between 0 and 99.99',
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+			'range' => array(
+				'rule' => array('range',0,99.99),
+				'message' => 'Default rate must be between 0 and 99.99',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		)
 	);
 }
 ?>

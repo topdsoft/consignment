@@ -64,12 +64,9 @@
 	<?php if (!empty($item['Detail'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
 		<th><?php __('Sale Id'); ?></th>
-		<th><?php __('Created'); ?></th>
-		<th><?php __('Item Id'); ?></th>
-		<th><?php __('Qty'); ?></th>
-		<th class="actions"><?php __('Actions');?></th>
+		<th><?php __('Sale Date'); ?></th>
+		<th><?php __('Qty Sold'); ?></th>
 	</tr>
 	<?php
 		$i = 0;
@@ -80,16 +77,9 @@
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $detail['id'];?></td>
-			<td><?php echo $detail['sale_id'];?></td>
+			<td><?php if($role>1) echo $this->Html->link($detail['sale_id'],array('controller'=>'sales','action'=>'view',$detail['sale_id'])); else echo $detail['sale_id'];?></td>
 			<td><?php echo $detail['created'];?></td>
-			<td><?php echo $detail['item_id'];?></td>
 			<td><?php echo $detail['qty'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'details', 'action' => 'view', $detail['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'details', 'action' => 'edit', $detail['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'details', 'action' => 'delete', $detail['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $detail['id'])); ?>
-			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>

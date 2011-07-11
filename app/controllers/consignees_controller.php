@@ -37,7 +37,7 @@ class ConsigneesController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The consignee could not be saved. Please, try again.', true));
 			}
-		}
+		} else $this->data['Consignee']['default']=ClassRegistry::init('Option')->field('default');
 		$this->set('role',$this->Auth->user('role'));
 	}
 

@@ -22,7 +22,7 @@ class DetailsController extends AppController {
 			$this->Detail->create();
 			$so_id=$this->data['Detail']['sale_id'];
 			$ok=false;
-			if ($this->data['Detail']['item_id']) {
+			if (isset($this->data['Detail']['item_id'])) {
 				//user has made selection
 				$ok=true;
 			} else {

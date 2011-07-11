@@ -21,6 +21,8 @@ class ItemsController extends AppController {
 			$this->set('children',$this->Item->Category->find('all',array('conditions'=>'Category.parent_id=0')));
 		}//endif
 		$this->set('role',$this->Auth->user('role'));
+		if ($this->Item->find('first',array('conditions'=>'printBC'))) $this->set('barcodes',true);
+		else $this->set('barcodes',false);
 	}
 
 	function lookup($id = null,$cat_id = null) {
@@ -58,6 +60,12 @@ class ItemsController extends AppController {
 		if ($this->Auth->user('role')==1) $this->redirect(array('controller' => 'items','action' => 'index'));
 		if (!empty($this->data)) {
 			$this->Item->create();
+			if ($this->data['Item']['printBC']) {
+				//generate barcode
+				$this->data['Item']['scancode']=ClassRegistry::init('Option')->field('lastBc')+1;
+				//update counter
+				$this->Item->query('update options set lastBC=\''.$this->data['Item']['scancode'].'\'');
+			}//endif
 			if ($this->Item->save($this->data)) {
 				$this->Session->setFlash(__('The item has been saved', true));
 				if ($this->data['Item']['addmore']) $this->redirect(array('action' => 'add', $this->data['Item']['consignee_id']));
@@ -130,5 +138,22 @@ class ItemsController extends AppController {
 		$this->Session->setFlash(__('Item was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	function printBC() {
+		//output qued barcodes
+		$this->Item->recursive = 0;
+		$this->set('items',$this->Item->find('all',array('conditions'=>'printBC','fields'=>array('Item.scancode','Item.qty','Item.price','Item.name'))));
+		//now clear print flags
+		$this->Item->query('update items set printBC=0 where printBC=1');
+		$this->layout='receipt';
+		//cleanup directory
+		$mask='img/bc*.png';
+		array_map("unlink",glob($mask));
+	}
+	
+	function donePrint() {
+		//called after printing to clear print flags
+	}
+	
 }
 ?>

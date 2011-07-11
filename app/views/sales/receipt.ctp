@@ -17,6 +17,7 @@
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Item'); ?></th>
+		<th><?php __('Description'); ?></th>
 		<th><?php __('Qty'); ?></th>
 		<th><?php __('Price'); ?></th>
 		<th><?php __('Tax'); ?></th>
@@ -32,16 +33,20 @@
 		?>
 		<tr<?php echo $class;?>>
 			<td><?php echo $detail['Item']['name'];?></td>
+			<td><?php echo nl2br($detail['Item']['desc']);?></td>
 			<td><?php echo $detail['qty'];$tqty+=$detail['qty'];?></td>
 			<td><?php echo $detail['Item']['price'];?></td>
 			<td><?php if($detail['Item']['taxable']) echo 'Y';?></td>
 			<td><?php echo $detail['ext'];$total+=$detail['ext']?></td>
 		</tr>
 	<?php endforeach; ?>
-	<tr><th></th><th></th><th></th><th></th><th></th></tr>
-	<tr><th>Total</th><th><?php echo $tqty; ?></th><th></th><th></th><th><?php echo number_format($total,2); ?></th>
+	<tr><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+	<tr><th>Total</th><th></th><th><?php echo $tqty; ?></th><th></th><th></th><th><?php echo number_format($total,2); ?></th>
 	</tr>
 	</table>
 <?php endif; ?>
 </div>
-<script type='text/javascript'>window.print(); window.location="<?php echo $html->url('/sales/')?>";</script>
+<script type='text/javascript'>
+window.print(); 
+window.location="<?php echo $html->url('/sales/')?>";
+</script>

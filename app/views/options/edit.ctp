@@ -7,6 +7,7 @@
 		echo $this->Form->input('name',array('label'=>'Company Name'));
 		echo $this->Form->input('address',array('label'=>'Address-Phone-Web-etc.. (optional)'));
 		echo $this->Form->input('tax',array('label'=>'Tax Rate'));
+		echo $this->Form->input('default',array('label'=>'Default Consignment Rate (0-99.99)'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

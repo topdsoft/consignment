@@ -54,7 +54,7 @@
 			echo '</tr>';
 		}//end foreach
 		echo '</table>';
-		echo '<h2><strong>Total:</strong>'.number_format($total,2).'</h2>';
+		echo '<br><br><h2><strong>Total:</strong>'.number_format($total,2).'</h2>';
 	}//endif saledata
 
 //debug($saledata);
