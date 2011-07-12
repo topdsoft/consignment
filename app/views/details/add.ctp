@@ -24,7 +24,7 @@
 
 		<li><?php echo $this->Html->link(__('Item Lookup', true), array('controller' => 'items', 'action' => 'lookup',$so_id));?></li>
 		<li><?php if ($saledata) echo $this->Html->link(__('Finish Sale', true), array('controller' => 'sales', 'action' => 'finish',$so_id)); ?> </li>
-		<li><?php echo $this->Html->link(__('Void Sale', true), array('controller' => 'sales', 'action' => 'void',$so_id)); ?> </li>
+		<li><?php echo $this->Html->link(__('Void Sale', true), array('controller' => 'sales', 'action' => 'void',$so_id), null, sprintf(__('Are you sure you want to VOID sale # %s?', true), $so_id)); ?> </li>
 		<li><?php //echo $this->Html->link(__('List Items', true), array('controller' => 'items', 'action' => 'index')); ?> </li>
 		<li><?php //echo $this->Html->link(__('New Item', true), array('controller' => 'items', 'action' => 'add')); ?> </li>
 	</ul>

@@ -146,7 +146,7 @@ class ItemsController extends AppController {
 		//now clear print flags
 		$this->Item->query('update items set printBC=0 where printBC=1');
 		$this->layout='receipt';
-		//cleanup directory
+		//cleanup directory from last time around
 		$mask='img/bc*.png';
 		array_map("unlink",glob($mask));
 	}

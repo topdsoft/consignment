@@ -10,6 +10,7 @@
 		echo $this->Form->input('taxable');
 		echo $this->Form->input('desc');
 		echo $this->Form->input('qty');
+		echo $this->Form->input('printBC',array('label' => 'Generate Barcode and Queue for Printing'));
 //		echo $this->Form->input('consignee_id');
 	?>
 	</fieldset>
