@@ -24,7 +24,7 @@
 		<td><?php //echo $item['Item']['id']; ?>&nbsp;</td>
 		<td><?php echo $item['Item']['name']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($item['Category']['name'], array('controller' => 'items', 'action' => 'index', $item['Category']['id'])); ?>
+			<?php echo $this->Html->link($item['Category']['name'], array('controller' => 'items', 'action' => 'index', $item['Category']['id'],$showq0)); ?>
 		</td>
 		<td><?php echo $item['Item']['price']; ?>&nbsp;</td>
 		<td><?php //echo $item['Item']['desc']; ?>&nbsp;</td>
@@ -61,19 +61,24 @@
 		//a category is set
 		echo '<table><td>';
 		//show parent
-		if ($cat['ParentCategory']['name']) echo $this->Html->link($cat['ParentCategory']['name'],array('action'=>'index',$cat['ParentCategory']['id']));
-		else echo $this->Html->link('Top Level',array('action' => 'index'));
+		if ($cat['ParentCategory']['name']) echo $this->Html->link($cat['ParentCategory']['name'],array('action'=>'index',$cat['ParentCategory']['id'],$showq0));
+		else echo $this->Html->link('Top Level',array('action' => 'index',0,$showq0));
 		echo '</td><td><strong>';
 		echo $cat['Category']['name'];
 		echo '</strong></td><td>';
 		//loop for all children
-		foreach ($cat['ChildCategory'] as $child) echo $this->Html->link($child['name'],array('action'=>'index',$child['id'])).'<br>';
+		foreach ($cat['ChildCategory'] as $child) echo $this->Html->link($child['name'],array('action'=>'index',$child['id'],$showq0)).'<br>';
 		echo '</td></table>';
 	} else {
 		//no category is set so show the top level categories
-		foreach ($children as $child) echo $this->Html->link($child['Category']['name'],array('action'=>'index',$child['Category']['id'])).'<br>';
+		foreach ($children as $child) echo $this->Html->link($child['Category']['name'],array('action'=>'index',$child['Category']['id'],$showq0)).'<br>';
 	}//endif
 	?></fieldset>
+	<?php
+	//show option to hide or show items with 0 qty
+	if ($showq0) echo $this->Html->link('Hide Items with Qty=0',array('action'=>'index',$cat_id));
+	else echo $this->Html->link('Show Items with Qty=0',array('action'=>'index',$cat_id,1));
+	?>
 </div>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>

@@ -5,6 +5,7 @@ class SalesController extends AppController {
 
 	function index() {
 		$this->Sale->recursive = 0;
+		$this->Sale->order='created desc';
 		if($this->Auth->user('role')==1) {
 			//only show current user's sales to salesperson (manager and supervisor see all sales)
 //			$this->Sale->conditions=;
