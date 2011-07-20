@@ -50,6 +50,7 @@ class DetailsController extends AppController {
 				$itmPrice=$this->Detail->Item->field('price','id='.$this->data['Detail']['item_id']);
 				$itmTaxable=$this->Detail->Item->field('taxable','id='.$this->data['Detail']['item_id']);
 				$this->data['Detail']['ext']=$itmPrice*(($TAX*$itmTaxable)+1)*$this->data['Detail']['qty'];
+				$this->data['Detail']['tax']=$itmPrice*($TAX*$itmTaxable)*$this->data['Detail']['qty'];
 				if ($this->Detail->save($this->data)) {
 //					$this->Session->setFlash(__('The detail has been saved', true));
 					$this->redirect(array('action' => 'add', $so_id));

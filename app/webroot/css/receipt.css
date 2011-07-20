@@ -113,11 +113,19 @@ ul, li {
 div.form,
 div.index,
 div.view {
+	padding:10px 2%;
+}
+
+@media screen {
+div.form,
+div.index,
+div.index {
 	float:right;
 	width:76%;
 	border-left:1px solid #666;
-	padding:10px 2%;
 }
+}
+
 div.actions {
 	float:left;
 	width:16%;
@@ -127,8 +135,6 @@ div.actions h3 {
 	padding-top:0;
 	color:#777;
 }
-
-
 /** Tables **/
 table {
 	background: #fff;
@@ -425,6 +431,12 @@ div.actions ul li a:hover,
 td.actions a:hover {
 	background: #f0f09a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7e1), to(#eeeca9));
+}
+
+@media print {
+div.actions {
+display: none;
+}
 }
 
 /** Related **/

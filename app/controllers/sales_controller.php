@@ -14,6 +14,82 @@ class SalesController extends AppController {
 		$this->set('role',$this->Auth->user('role'));
 	}
 
+	function report($report_id = null) {
+		if (!$report_id) {
+			$this->Session->setFlash(__('Invalid report', true));
+			$this->redirect(array('controller'=>'reports','action' => 'index'));
+		}
+		if ($this->Auth->user('role')!=3) $this->redirect(array('action' => 'index'));
+		//get report data
+		$report=ClassRegistry::init('Reports')->read(null, $report_id);
+		$this->set('report', $report);
+		//get sales data
+		$this->Sale->recursive = 0;
+		$conditions=array('status="C"');
+		//user filter
+		if($report['Reports']['userFilter']>0) $conditions[]='user_id='.$report['Reports']['userFilter'];
+		//date filters
+		if($report['Reports']['dateFilter']==0) $dateFilter='(ALL)';
+		if($report['Reports']['dateFilter']==1) {
+			//single day filter
+			$conditions[]="date(closed)='{$report['Reports']['dayFilter']}'";
+			$dateFilter=$report['Reports']['dayFilter'];
+		}//endif for single day
+		if($report['Reports']['dateFilter']==2) {
+			//date range filter
+			$conditions[]="date(closed)>='{$report['Reports']['startFilter']}'";
+			$conditions[]="date(closed)<='{$report['Reports']['endFilter']}'";
+			$dateFilter=$report['Reports']['startFilter'].' to '.$report['Reports']['endFilter'];
+		}//endif for single day
+		if($report['Reports']['dateFilter']==3) {
+			//current week/month/year
+			if ($report['Reports']['currentFilter']==1) {
+				//current week
+				$conditions[]="week(closed)=week(now())";
+				$conditions[]="year(closed)=year(now())";
+				$dateFilter='Current Week '.date('W');
+			} else if ($report['Reports']['currentFilter']==2) {
+				//current month
+				$conditions[]="month(closed)=month(now())";
+				$conditions[]="year(closed)=year(now())";
+				$dateFilter='Current Month '.date('F');
+			} else {
+				//current year
+				$conditions[]="year(closed)=year(now())";
+				$dateFilter='Current Year '.date('Y');
+			}//endif
+		}//endif for single day
+		if($report['Reports']['dateFilter']==4) {
+			//last week/month/year
+			if ($report['Reports']['pastFilter']==1) {
+				//last week
+				$conditions[]="week(closed)=week(now()-interval 1 week)";
+				$conditions[]="year(closed)=year(now()-interval 1 week)";
+				$dateFilter='Last Week';
+			} else if ($report['Reports']['pastFilter']==2) {
+				//last month
+				$conditions[]="month(closed)=month(now()-interval 1 month)";
+				$conditions[]="year(closed)=year(now()-interval 1 month)";
+				$dateFilter='Last Month';
+			} else {
+				//last year
+				$conditions[]="year(closed)=year(now()-interval 1 year)";
+				$dateFilter='Last Year';
+			}//endif
+		}//endif for single day
+		$this->layout='receipt';
+
+		//get dales data
+		$sales=$this->Sale->find('all',array('conditions'=>$conditions));
+		$this->set('sales',$sales);
+
+		$this->set('role',$this->Auth->user('role'));
+		$users=$this->Sale->User->find('list');
+		$users[0]='(ALL)';
+		$this->set(compact('users'));
+		$this->set('dateFilter',$dateFilter);
+	}
+
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid sale', true));

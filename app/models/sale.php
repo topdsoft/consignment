@@ -4,7 +4,8 @@ class Sale extends AppModel {
 	var $virtualFields = array (
 		'numItems' => '(select count(*) from details where details.sale_id=Sale.id)',
 		'qty' => '(select sum(qty) from details where details.sale_id=Sale.id)',
-		'ext' => '(select sum(ext) from details where details.sale_id=Sale.id)'
+		'ext' => '(select sum(ext) from details where details.sale_id=Sale.id)',
+		'tax' => '(select sum(tax) from details where details.sale_id=Sale.id)'
 	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
