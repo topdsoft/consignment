@@ -25,10 +25,10 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $sale['Sale']['id']; ?>&nbsp;</td>
 		<td><?php echo $sale['Sale']['closed']; ?>&nbsp;</td>
-		<td><?php echo $sale['User']['username']; ?>&nbsp;</td>
-		<td><?php echo number_format($sale['Sale']['ext']-$sale['Sale']['tax'],2); $total+=($sale['Sale']['ext']-$sale['Sale']['tax']); ?>&nbsp;</td>
-		<td><?php echo $sale['Sale']['tax']; $ttotal+=$sale['Sale']['tax']; ?>&nbsp;</td>
-		<td><?php echo $sale['Sale']['ext']; $etotal+=$sale['Sale']['ext']; ?>&nbsp;</td>
+		<td><?php echo $sale['Sale']['User']['username']; ?>&nbsp;</td>
+		<td><?php echo number_format($sale['0']['ext']-$sale['0']['tax'],2); $total+=($sale['0']['ext']-$sale['0']['tax']); ?>&nbsp;</td>
+		<td><?php echo $sale['0']['tax']; $ttotal+=$sale['0']['tax']; ?>&nbsp;</td>
+		<td><?php echo $sale['0']['ext']; $etotal+=$sale['0']['ext']; ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	<tr>

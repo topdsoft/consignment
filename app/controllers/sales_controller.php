@@ -79,10 +79,13 @@ class SalesController extends AppController {
 		}//endif for single day
 		$this->layout='receipt';
 
-		//get dales data
-		$sales=$this->Sale->find('all',array('conditions'=>$conditions));
+		//get sales data
+		$fields=array('Detail.sale_id','Detail.created','Detail.item_id','Detail.qty','sum(Detail.ext) as ext','sum(Detail.tax) as tax','Item.name','Sale.status');
+		$this->Sale->Detail->recursive=2;
+		$sales=$this->Sale->Detail->find('all',array('conditions'=>$conditions,'fields'=>$fields,'group'=>'Detail.sale_id'));
+//		$sales=$this->Sale->find('all',array('conditions'=>$conditions));
 		$this->set('sales',$sales);
-
+//debug($sales);exit;
 		$this->set('role',$this->Auth->user('role'));
 		$users=$this->Sale->User->find('list');
 		$users[0]='(ALL)';
