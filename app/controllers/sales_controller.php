@@ -107,7 +107,8 @@ class SalesController extends AppController {
 		//get sales data
 		$fields=array('Detail.sale_id','Detail.created','Detail.item_id','Detail.qty','sum(Detail.ext) as ext','sum(Detail.tax) as tax','Item.name','Sale.status');
 		$this->Sale->Detail->recursive=2;
-		$sales=$this->Sale->Detail->find('all',array('conditions'=>$conditions,'fields'=>$fields,'group'=>'Detail.sale_id'));
+		if($report['Reports']['viewDetails']) $sales=$this->Sale->Detail->find('all',array('conditions'=>$conditions,'fields'=>$fields,'group'=>'Detail.id'));
+		else $sales=$this->Sale->Detail->find('all',array('conditions'=>$conditions,'fields'=>$fields,'group'=>'Detail.sale_id'));
 //		$sales=$this->Sale->find('all',array('conditions'=>$conditions));
 		$this->set('sales',$sales);
 //debug($sales);exit;
@@ -116,9 +117,12 @@ class SalesController extends AppController {
 		$users[0]='(ALL)';
 		$this->set(compact('users'));
 		$this->set('dateFilter',$dateFilter);
-		//get array of item names for detailed reporting
-		$itemNames=ClassRegistry::init('Item')->find('list');
-		$this->set(compact('itemNames'));
+		if($report['Reports']['viewDetails']) {
+			//get array of item names for detailed reporting
+			$itemNames=ClassRegistry::init('Item')->find('list');
+			$this->set(compact('itemNames'));
+		}//endif
+		$this->set('viewDetails',$report['Reports']['viewDetails']);
 	}
 
 	function view($id = null) {

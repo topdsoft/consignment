@@ -21,6 +21,7 @@
 		echo $form->input('dateFilter',array('type'=>'radio','options'=>array(4=>'Show only Last:')));
 		echo $this->Form->input('pastFilter',array('type'=>'select','label'=>'','options'=>array(1=>'Week',2=>'Month',3=>'Year')));
 		echo '</fieldset>';
+		echo $this->Form->input('viewDetails');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

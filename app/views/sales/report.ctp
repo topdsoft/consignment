@@ -17,33 +17,54 @@
 	<th>Ext</th>
 	</tr>
 	<?php
-	$i = 0;$etotal=0;$ttotal=0;$total=0;
+	$i = 0;$etotal=0;$ttotal=0;$total=0;$saleId=0;$arrayIndex=0;
 	foreach ($sales as $sale):
 		$class = null;
-		if ($i++ % 2 == 0) {
+		if ($i % 2 == 0) {
 			$class = ' class="altrow"';
 		}
-
-
-
-
-
-
-
-
+		//loop for each detail
+		if ($saleId!=$sale['Sale']['id']) {
+			//this is a new sale id (start new row)
+			$i++;
+			$saleId=$sale['Sale']['id'];
+			$saleTaxTotal=$saleExtTotal=0;
+			$saleArray=array();
+			$saleTaxArray=array();
+			$saleExtArray=array();
+			echo "<tr$class>";
+			echo "<td>$saleId</td>";
+			echo "<td>".$sale['Sale']['closed'];
+			$j=$arrayIndex;
+			while($j<count($sales) && $sales[$j]['Sale']['id']==$saleId) {
+				//loop for all the details of this sale
+				if($viewDetails)echo "<br><small>{$sales[$j]['Detail']['qty']} {$itemNames[$sales[$j]['Detail']['item_id']]}</small>";
+				//total up ext and tax
+				$saleTaxTotal+=$sales[$j][0]['tax'];
+				$saleExtTotal+=$sales[$j][0]['ext'];
+				//add values to arrays
+				$saleTaxArray[]=$sales[$j][0]['tax'];
+				$saleExtArray[]=$sales[$j][0]['ext'];
+				$saleArray[]=number_format($sales[$j][0]['ext']-$sales[$j][0]['tax'],2);
+				$j++;
+			}//end while
+			echo '</td>';
+			echo "<td>{$sale['Sale']['User']['username']}</td>";
+			echo "<td>".number_format($saleExtTotal-$saleTaxTotal,2);
+			$total+=number_format($saleExtTotal-$saleTaxTotal,2);
+			if($viewDetails)foreach($saleArray as $x) echo "<br><small>$x</small>";
+			echo '</td>';
+			echo "<td>".number_format($saleTaxTotal,2);
+			$ttotal+=$saleTaxTotal;
+			if($viewDetails)foreach($saleTaxArray as $x) echo "<br><small>$x</small>";
+			echo '</td>';
+			echo "<td>".number_format($saleExtTotal,2);
+			$etotal+=$saleExtTotal;
+			if($viewDetails)foreach($saleExtArray as $x) echo "<br><small>$x</small>";
+			echo '</td></tr>';
+		}//endif
+		$arrayIndex++;
 	?>
-	<tr<?php echo $class;?>>
-		<td><?php echo $sale['Sale']['id']; ?>&nbsp;</td>
-		<td><?php echo $sale['Sale']['closed']; ?>&nbsp;
-		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['qty'].' '.$itemNames[$detail['item_id']].'</small>'; ?></td>
-		<td><?php echo $sale['Sale']['User']['username']; ?>&nbsp;</td>
-		<td><?php echo number_format($sale['0']['ext']-$sale['0']['tax'],2); $total+=($sale['0']['ext']-$sale['0']['tax']); ?>&nbsp;
-		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.number_format($detail['ext']-$detail['tax'],2).'</small>'; ?></td>
-		<td><?php echo $sale['0']['tax']; $ttotal+=$sale['0']['tax']; ?>&nbsp;
-		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['tax'].'</small>'; ?></td>
-		<td><?php echo $sale['0']['ext']; $etotal+=$sale['0']['ext']; ?>&nbsp;
-		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['ext'].'</small>'; ?></td>
-	</tr>
 <?php endforeach; ?>
 	<tr>
 	<th></th> <th></th> <th></th> <th></th>  <th></th> <th></th>
