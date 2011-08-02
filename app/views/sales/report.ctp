@@ -23,6 +23,14 @@
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
+
+
+
+
+
+
+
+
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $sale['Sale']['id']; ?>&nbsp;</td>
