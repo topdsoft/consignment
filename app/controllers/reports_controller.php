@@ -36,6 +36,11 @@ class ReportsController extends AppController {
 		$categories[0]='(ALL)';
 		$this->data['Report']['catFilter']=0;
 		$this->set(compact('categories'));
+		//get list of consignees for filter display
+		$consignees = ClassRegistry::init('Consignee')->find('list',array('order'=>'lName'));
+		$consignees[0]='(ALL)';
+		$this->data['Report']['consigneeFilter']=0;
+		$this->set(compact('consignees'));
 		//default date filter to none
 		$this->data['Report']['dateFilter']=0;
 	}
@@ -68,6 +73,10 @@ class ReportsController extends AppController {
 		$categories[0]='(ALL)';
 //		$this->data['Report']['catFilter']=0;
 		$this->set(compact('categories'));
+		//get list of consignees for filter display
+		$consignees = ClassRegistry::init('Consignee')->find('list',array('order'=>'lName'));
+		$consignees[0]='(ALL)';
+		$this->set(compact('consignees'));
 		//default date filter to none
 //		$this->data['Report']['dateFilter']=0;
 	}

@@ -3,6 +3,8 @@
 	<?php
 		echo '<strong>Report Date:</strong>'.date('l F jS Y h:i:s A').'<br>';
 		echo '<strong>User Filter:</strong>'.$users[$report['Reports']['userFilter']].'<br>';
+		echo '<strong>Category Filter:</strong>'.$catName.'<br>';
+		echo '<strong>Consignee Filter:</strong>'.$consigneeName.'<br>';
 		echo '<strong>Date Filter:</strong>'.$dateFilter.'<br>';
 	?>
 	<table cellpadding="0" cellspacing="0">
@@ -24,11 +26,15 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $sale['Sale']['id']; ?>&nbsp;</td>
-		<td><?php echo $sale['Sale']['closed']; ?>&nbsp;</td>
+		<td><?php echo $sale['Sale']['closed']; ?>&nbsp;
+		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['qty'].' '.$itemNames[$detail['item_id']].'</small>'; ?></td>
 		<td><?php echo $sale['Sale']['User']['username']; ?>&nbsp;</td>
-		<td><?php echo number_format($sale['0']['ext']-$sale['0']['tax'],2); $total+=($sale['0']['ext']-$sale['0']['tax']); ?>&nbsp;</td>
-		<td><?php echo $sale['0']['tax']; $ttotal+=$sale['0']['tax']; ?>&nbsp;</td>
-		<td><?php echo $sale['0']['ext']; $etotal+=$sale['0']['ext']; ?>&nbsp;</td>
+		<td><?php echo number_format($sale['0']['ext']-$sale['0']['tax'],2); $total+=($sale['0']['ext']-$sale['0']['tax']); ?>&nbsp;
+		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.number_format($detail['ext']-$detail['tax'],2).'</small>'; ?></td>
+		<td><?php echo $sale['0']['tax']; $ttotal+=$sale['0']['tax']; ?>&nbsp;
+		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['tax'].'</small>'; ?></td>
+		<td><?php echo $sale['0']['ext']; $etotal+=$sale['0']['ext']; ?>&nbsp;
+		<?php //foreach ($sale['Sale']['Detail'] as $detail) echo '<br><small>'.$detail['ext'].'</small>'; ?></td>
 	</tr>
 <?php endforeach; ?>
 	<tr>
@@ -39,6 +45,7 @@
 	</tr>
 	</table>
 	<p>
+<?php //debug($sales); ?>
 
 </div>
 <div class="actions">

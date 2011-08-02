@@ -28,6 +28,31 @@ class SalesController extends AppController {
 		$conditions=array('status="C"');
 		//user filter
 		if($report['Reports']['userFilter']>0) $conditions[]='user_id='.$report['Reports']['userFilter'];
+		//filter for category
+		if($report['Reports']['catFilter']>0) {
+			//create list of categorie's children
+			$children=ClassRegistry::init('Category')->children($report['Reports']['catFilter']);
+			//also add selected category
+			foreach ($children as $child) $useCat[]=$child['Category']['id'];
+			$useCat[]=$report['Reports']['catFilter'];
+			$conditions[]=array('Item.category_id'=>$useCat);
+			//find category name to pass to view
+//			$this->set('catName',$children=ClassRegistry::init('Category')->field('name','id='.$report['Reports']['catFilter']));
+			$catPath=ClassRegistry::init('Category')->getPath($report['Reports']['catFilter'],'name');
+			$catName='';
+			foreach($catPath as $cat) {
+			    //loop for all categories on path and add them to string
+				if(!empty($catName)) $catName.='-->'; //add seperator
+				$catName.=$cat['Category']['name'];
+			}//end foreach
+			$this->set('catName',$catName);
+		} else $this->set('catName','(ALL)');
+		//filter for consignee
+		if($report['Reports']['consigneeFilter']>0) {
+			//select only items from a selected consignee
+			$conditions[]='Item.consignee_id='.$report['Reports']['consigneeFilter'];
+			$this->set('consigneeName',ClassRegistry::init('Consignee')->field('fullname','id='.$report['Reports']['consigneeFilter']));
+		} else $this->set('consigneeName','(ALL)');
 		//date filters
 		if($report['Reports']['dateFilter']==0) $dateFilter='(ALL)';
 		if($report['Reports']['dateFilter']==1) {
@@ -91,6 +116,9 @@ class SalesController extends AppController {
 		$users[0]='(ALL)';
 		$this->set(compact('users'));
 		$this->set('dateFilter',$dateFilter);
+		//get array of item names for detailed reporting
+		$itemNames=ClassRegistry::init('Item')->find('list');
+		$this->set(compact('itemNames'));
 	}
 
 	function view($id = null) {

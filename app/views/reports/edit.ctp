@@ -6,7 +6,8 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('user_id',array('value'=>$uid,'type'=>'hidden'));
 		echo $this->Form->input('userFilter',array('type'=>'select','options'=>$users,'label'=>'Filter by Salesperson'));
-//		echo $this->Form->input('catFilter',array('type'=>'select','options'=>$categories,'label'=>'Filter by Category'));
+		echo $this->Form->input('catFilter',array('type'=>'select','options'=>$categories,'label'=>'Filter by Category'));
+		echo $this->Form->input('consigneeFilter',array('type'=>'select','options'=>$consignees,'label'=>'Filter by Consignee'));
 		//start new fieldset for date filter radio buttons
 		echo '<fieldset><legend>Date Filtering</legend>';
 		echo $form->input('dateFilter',array('type'=>'radio','options'=>array(0=>'None')));
