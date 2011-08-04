@@ -1,4 +1,4 @@
 /app/config/database.php
 /app/tests
-/plugins
+#/plugins
 /vendors
