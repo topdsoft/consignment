@@ -1,6 +1,6 @@
 <?php
 
-require_once('../../plugins/barcode.php');
+require_once('plugins/barcode.php');
 
 $bc=new BarcodeHelper;
 
