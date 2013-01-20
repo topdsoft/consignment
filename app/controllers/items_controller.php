@@ -20,7 +20,7 @@ class ItemsController extends AppController {
 			//no category filter set
 			if ($showq0)$this->set('items', $this->paginate('Item'));
 			else $this->set('items', $this->paginate('Item', array('Item.qty>0')));
-			$this->set('children',$this->Item->Category->find('all',array('conditions'=>'Category.parent_id=0')));
+			$this->set('children',$this->Item->Category->find('all',array('conditions'=>array('OR'=>array('Category.parent_id=0','Category.parent_id is NULL')))));
 		}//endif
 		$this->set('role',$this->Auth->user('role'));
 		$this->set('showq0',$showq0);
@@ -46,7 +46,8 @@ class ItemsController extends AppController {
 		} else {
 			//no category filter set
 			$this->set('items', $this->paginate('Item', array('Item.qty>0')));
-			$this->set('children',$this->Item->Category->find('all',array('conditions'=>'Category.parent_id=0')));
+			$this->set('children',$this->Item->Category->find('all',
+				array('conditions'=>array('Category.parent_id'=>0))));
 		}//endif
 		$this->set('so_id',$id);
 	}
