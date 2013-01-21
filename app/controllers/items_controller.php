@@ -46,8 +46,7 @@ class ItemsController extends AppController {
 		} else {
 			//no category filter set
 			$this->set('items', $this->paginate('Item', array('Item.qty>0')));
-			$this->set('children',$this->Item->Category->find('all',
-				array('conditions'=>array('Category.parent_id'=>0))));
+			$this->set('children',$this->Item->Category->find('all',array('conditions'=>array('OR'=>array('Category.parent_id=0','Category.parent_id is NULL')))));
 		}//endif
 		$this->set('so_id',$id);
 	}

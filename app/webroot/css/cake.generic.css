@@ -379,6 +379,8 @@ p.error em {
 .success {
 	background: green;
 	color: #fff;
+	padding: 0.8em;
+	margin: 1em 0;
 }
 
 /**  Actions  **/
